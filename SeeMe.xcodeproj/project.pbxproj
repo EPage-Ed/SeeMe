@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8C49FC226756533004D38CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC126756533004D38CB /* Extensions.swift */; };
+		D8C49FC526756A29004D38CB /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC426756A29004D38CB /* Face.swift */; };
+		D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */; };
 		D8E9DE5A26755E2100B1DDBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */; };
 		D8E9DE5C26755E2100B1DDBA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5B26755E2100B1DDBA /* ViewController.swift */; };
 		D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5D26755E2100B1DDBA /* Experience.rcproject */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D8C49FC126756533004D38CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D8C49FC426756A29004D38CB /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
+		D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FaceId-resnet50-quantized.mlmodel"; sourceTree = "<group>"; };
 		D8E9DE5626755E2100B1DDBA /* SeeMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeeMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8E9DE5B26755E2100B1DDBA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +42,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D8C49FC326756A15004D38CB /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D8C49FC426756A29004D38CB /* Face.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		D8C49FC626756AD5004D38CB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		D8E9DE4D26755E2100B1DDBA = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +79,9 @@
 			children = (
 				D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */,
 				D8E9DE5B26755E2100B1DDBA /* ViewController.swift */,
+				D8C49FC126756533004D38CB /* Extensions.swift */,
+				D8C49FC326756A15004D38CB /* Objects */,
+				D8C49FC626756AD5004D38CB /* Models */,
 				D8E9DE5D26755E2100B1DDBA /* Experience.rcproject */,
 				D8E9DE5F26755E2100B1DDBA /* Main.storyboard */,
 				D8E9DE6226755E2300B1DDBA /* Assets.xcassets */,
@@ -138,7 +163,10 @@
 			files = (
 				D8E9DE5C26755E2100B1DDBA /* ViewController.swift in Sources */,
 				D8E9DE5A26755E2100B1DDBA /* AppDelegate.swift in Sources */,
+				D8C49FC526756A29004D38CB /* Face.swift in Sources */,
 				D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */,
+				D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */,
+				D8C49FC226756533004D38CB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
