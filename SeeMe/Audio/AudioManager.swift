@@ -9,11 +9,11 @@ import PHASE
 import Foundation
 
 class SoundManager {
-    let engine = PHASEEngine(updateMode: .automatic)
-    var soundEvent: PHASESoundEvent? = nil
-    var listener: PHASEListener? = nil
+    private let engine = PHASEEngine(updateMode: .automatic)
+    private var soundEvent: PHASESoundEvent? = nil
+    private var listener: PHASEListener? = nil
     
-    var person1Source: PHASESource? = nil
+    private var person1Source: PHASESource? = nil
     
     struct Identifiers {
         static let person1 = "person1"
@@ -102,5 +102,11 @@ class SoundManager {
         
         self.soundEvent = try! PHASESoundEvent(engine: engine, assetIdentifier: Identifiers.person1Event, mixerParameters: mixerParameters)
         try! soundEvent!.start()
+    }
+    
+    func update(cameraTransform: simd_float4x4, faceTransform: simd_float4x4) {
+        guard let listener = self.listener, let source = self.person1Source else { return }
+        listener.transform = cameraTransform
+        source.transform = faceTransform
     }
 }
