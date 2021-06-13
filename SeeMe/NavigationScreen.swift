@@ -58,6 +58,17 @@ struct NavigationScreen: View {
         }
     }
     
+    var message: String {
+        switch appState.detectionState {
+        case .disabled:
+            return "Hover over a face and tap to remember"
+        case .searching:
+            return "Looking for a face"
+        case .tracking:
+            return "4 m ahead"
+        }
+    }
+    
     var body: some View {
         ZStack {
             ViewControllerRepresentable(tap: $tap)
@@ -73,6 +84,15 @@ struct NavigationScreen: View {
                             .font(.system(size: 200))
                             .foregroundColor(.white)
                             .rotationEffect(.radians(appState.angle))
+                        VStack {
+                            Spacer()
+                            Text(message)
+                                .foregroundColor(.white)
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 40)
+                        }
                     }
                     Spacer()
                 }
