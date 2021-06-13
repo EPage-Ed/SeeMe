@@ -146,7 +146,106 @@ extension ViewController : ARSCNViewDelegate {
 }
 
 extension ViewController : ARSessionDelegate {
-  func session(_ session: ARSession, didUpdate frame: ARFrame) {
-      
+
+  func isFace(_ face: Face, hasCloseFeaturesWith otherFaceFeatures: MLMultiArray) -> (Bool,Double) {
+    guard let features = face.features else { return(false,9999.0) }
+    let treshold = 102.0 // find what is best
+    var distance: Double = 0
+    
+    for index in 0..<otherFaceFeatures.count {
+      let delta = features[index].doubleValue - otherFaceFeatures[index].doubleValue
+      distance += delta * delta
+    }
+    distance = distance.squareRoot()
+    
+    return (distance < treshold,distance)
   }
+  
+  func identify(cgImage: CGImage, withCompletion completion: @escaping (_ faceFeatures: MLMultiArray?) -> Void) {
+    
+    DispatchQueue.global(qos: .userInitiated).async {
+      
+      let handler = VNImageRequestHandler(ciImage: CIImage(cgImage: cgImage))
+      let faceIdRequest = VNCoreMLRequest(model: self.faceIdModel) { request, error in
+        
+        guard let observations = request.results as? [VNCoreMLFeatureValueObservation],
+              let faceFeatures = observations.first?.featureValue.multiArrayValue else {
+                completion(nil)
+                return
+              }
+        completion(faceFeatures)
+      }
+      
+      do {
+        try handler.perform([faceIdRequest])
+      }
+      catch {
+        completion(nil)
+      }
+    }
+  }
+  
+  func session(_ session: ARSession, didUpdate frame: ARFrame) {
+    let img = frame.capturedImage
+    let tm = frame.timestamp
+    
+    if tm - lastFrameTime < 0.1 { return }
+    lastFrameTime = tm
+
+    let (xFov,yFov) = genFOV(session: session)
+    let o = UIDevice.current.orientation
+    FaceDetect.currentFOV = o.isLandscape ? xFov : (o.isPortrait ? yFov : FaceDetect.currentFOV)
+
+    DispatchQueue.global().async {
+      FaceDetect.shared.detectAFace(pixelBuf: img) { cgImages in
+        if FaceDetect.shared.captureMode {
+          FaceDetect.shared.captureMode = false
+          guard let cgImg = cgImages.first else {
+            return
+          }
+          
+        } else {
+            DispatchQueue.main.async {
+                
+              if FaceDetect.shared.isDetecting { return }
+              FaceDetect.shared.isDetecting = true
+              
+              let dg = DispatchGroup()
+              for (i,cg) in cgImages.enumerated() {
+                dg.enter()
+                self.identify(cgImage: cg.0) { features in
+                  defer { dg.leave() }
+                  guard let faceFeatures = features else { return }
+                  self.faceIdents.forEach { face in
+                    let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
+                    if isFace.0 {
+                      FaceManager.shared.faceSeen(face: face)
+                      face.bounds = cg.1
+
+                    } else {
+                      
+                    }
+                  }
+                }
+              }
+              dg.notify(queue: .main) {
+                FaceDetect.shared.isDetecting = false
+              }
+
+            }
+          
+        }
+      }
+    }
+  }
+  
+  func genFOV(session: ARSession) -> (Float,Float) {
+    let imageResolution = session.currentFrame!.camera.imageResolution
+    let intrinsics = session.currentFrame!.camera.intrinsics
+    
+    let xFov = 2 * atan(Float(imageResolution.width)/(2 * intrinsics[0,0]))
+    let yFov = 2 * atan(Float(imageResolution.height)/(2 * intrinsics[1,1]))
+    return (xFov,yFov)
+  }
+
 }
