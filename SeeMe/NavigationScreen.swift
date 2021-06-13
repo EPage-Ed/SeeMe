@@ -131,10 +131,16 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
 protocol ViewControllerDelegate {
     /// Set angle in radians
     func setAngle(_ angle: Double)
+    /// Update tracking state
+    func detectionState(didChange: SwiftUIState.DetectionState)
 }
 
 extension ViewControllerDelegate {
     func setAngle(_ angle: Double) {
+        
+    }
+    
+    func detectionState(didChange: SwiftUIState.DetectionState) {
         
     }
 }
