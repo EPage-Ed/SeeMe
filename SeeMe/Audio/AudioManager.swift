@@ -15,15 +15,20 @@ class SoundManager {
     
     var person1Source: PHASESource? = nil
     
+    struct Identifiers {
+        static let person1 = "person1"
+        static let person1Event = "person1event"
+    }
+    
     init() {
+        // Load person1 asset into PHASE
         let audioFileUrl = Bundle.main.url(forResource: "person1", withExtension: "wav")!
-        
-        let soundAsset = try! engine.assetRegistry.registerSoundAsset(url: audioFileUrl, identifier: "beep", assetType: .resident, channelLayout: nil, normalizationMode: .dynamic)
-        
+        let soundAsset = try! engine.assetRegistry.registerSoundAsset(url: audioFileUrl, identifier: Identifiers.person1, assetType: .resident, channelLayout: nil, normalizationMode: .dynamic)
+        // Align channel layout with person1.wav
         let channelLayout = AVAudioChannelLayout(layoutTag: kAudioChannelLayoutTag_Mono)!
-        
+        // Create sampler node for reference later
         let channelMixerDefinition = PHASEChannelMixerDefinition(channelLayout: channelLayout)
-        let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: "beep", mixerDefinition: channelMixerDefinition)
+        let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: Identifiers.person1, mixerDefinition: channelMixerDefinition)
         
         try! engine.start()
         spatialPipeline()
@@ -45,12 +50,12 @@ class SoundManager {
         distanceModelParameters.rolloffFactor = 0.25
         spatialMixerDefinition.distanceModelParameters = distanceModelParameters
         
-        let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: "beep", mixerDefinition: spatialMixerDefinition)
+        let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: Identifiers.person1, mixerDefinition: spatialMixerDefinition)
         samplerNodeDefinition.playbackMode = .looping
         samplerNodeDefinition.setCalibrationMode(.relativeSpl, level: 12)
         samplerNodeDefinition.cullOption = .sleepWakeAtRealtimeOffset
         
-        let soundEventAsset = try! engine.assetRegistry.registerSoundEventAsset(rootNode: samplerNodeDefinition, identifier: "beepEvent")
+        let soundEventAsset = try! engine.assetRegistry.registerSoundEventAsset(rootNode: samplerNodeDefinition, identifier: Identifiers.person1Event)
         
         
         // Listener transform setup
@@ -95,7 +100,7 @@ class SoundManager {
         let mixerParameters = PHASEMixerParameters()
         mixerParameters.addSpatialMixerParameters(identifier: spatialMixerDefinition.identifier, source: source, listener: listener!)
         
-        self.soundEvent = try! PHASESoundEvent(engine: engine, assetIdentifier: "beepEvent", mixerParameters: mixerParameters)
+        self.soundEvent = try! PHASESoundEvent(engine: engine, assetIdentifier: Identifiers.person1Event, mixerParameters: mixerParameters)
         try! soundEvent!.start()
     }
 }
