@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C4248322675C35C00AF6798 /* NavigationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4248312675C35C00AF6798 /* NavigationScreen.swift */; };
 		D8C49FC226756533004D38CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC126756533004D38CB /* Extensions.swift */; };
 		D8C49FC526756A29004D38CB /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC426756A29004D38CB /* Face.swift */; };
 		D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C4248312675C35C00AF6798 /* NavigationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationScreen.swift; sourceTree = "<group>"; };
 		D8C49FC126756533004D38CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D8C49FC426756A29004D38CB /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
 		D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FaceId-resnet50-quantized.mlmodel"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				D8E9DE5F26755E2100B1DDBA /* Main.storyboard */,
 				D8E9DE6226755E2300B1DDBA /* Assets.xcassets */,
 				D8E9DE6426755E2300B1DDBA /* LaunchScreen.storyboard */,
+				8C4248312675C35C00AF6798 /* NavigationScreen.swift */,
 			);
 			path = SeeMe;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */,
 				D8C49FC226756533004D38CB /* Extensions.swift in Sources */,
 				D8C49FD52675B02D004D38CB /* AudioManager.swift in Sources */,
+				8C4248322675C35C00AF6798 /* NavigationScreen.swift in Sources */,
 				D8C49FD32675A9F8004D38CB /* FaceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,7 +351,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2BY2NMR4CA;
+				DEVELOPMENT_TEAM = J3NGVGY2HM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -377,7 +381,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2BY2NMR4CA;
+				DEVELOPMENT_TEAM = J3NGVGY2HM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
