@@ -47,6 +47,17 @@ struct NavigationScreen: View {
         }
     }
     
+    var backgroundColor: Color {
+        switch appState.detectionState {
+        case .disabled:
+            return Color(UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.3))
+        case .searching:
+            return Color(UIColor(red: 1, green: 1, blue: 1, alpha: 0.3))
+        case .tracking:
+            return Color(UIColor(red: 0, green: 0.75, blue: 0, alpha: 0.3))
+        }
+    }
+    
     var body: some View {
         ZStack {
             ViewControllerRepresentable(tap: $tap)
@@ -68,7 +79,7 @@ struct NavigationScreen: View {
                 Spacer()
             }
             .edgesIgnoringSafeArea(.all)
-            .background(Color(UIColor(red: 0, green: 0.75, blue: 0, alpha: 0.3)))
+            .background(backgroundColor)
             .background(.clear)
         }
         .onTapGesture {
