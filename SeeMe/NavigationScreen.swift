@@ -86,15 +86,23 @@ struct NavigationScreen: View {
                         Image(systemName: symbolName)
                             .font(.system(size: 200))
                             .foregroundColor(.white)
-                            .rotationEffect(.radians(appState.face.angle*10))
+                            .rotationEffect(appState.detectionState == .tracking ? .radians(appState.face.angle*10) : .radians(0))
+                            .scaleEffect(appState.detectionState == .tracking ? CGFloat(appState.face.distance*2) : 1)
                         VStack {
+                            if appState.detectionState == .tracking {
+                                Text("\(faceDistance) m")
+                                    .font(.system(size: 90, weight: .bold, design: .default))
+                                    .frame(width: 500)
+                                    .padding(.top, 50)
+                                    .foregroundColor(.white)
+                            }
                             Spacer()
                             Text(message)
                                 .foregroundColor(.white)
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding(.horizontal, 20)
-                                .padding(.bottom, 40)
+                                .padding(.bottom, 60)
                         }
                     }
                     Spacer()
