@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class SwiftUIState: ObservableObject {
-    @Published var face: Face? = nil
+    @Published var face: Face = Face()
     @Published var detectionState: DetectionState = .disabled
     
     enum DetectionState {
@@ -60,12 +60,16 @@ struct NavigationScreen: View {
     var message: String {
         switch appState.detectionState {
         case .disabled:
-            return "Hover over a face and tap to remember"
+            return "Select a face to remember"
         case .searching:
             return "Looking for a face"
         case .tracking:
-            return "4 m ahead"
+            return "Hey, there! 👋"
         }
+    }
+    
+    var faceDistance: String {
+        String(format: "%.1f", appState.face.distance * 3)
     }
     
     var body: some View {
@@ -82,7 +86,7 @@ struct NavigationScreen: View {
                         Image(systemName: symbolName)
                             .font(.system(size: 200))
                             .foregroundColor(.white)
-                            .rotationEffect(.radians(appState.face?.angle ?? 0))
+                            .rotationEffect(.radians(appState.face.angle*10))
                         VStack {
                             Spacer()
                             Text(message)
