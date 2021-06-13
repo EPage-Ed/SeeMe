@@ -14,7 +14,12 @@ class Face : Equatable, Hashable {
   static let faceWidthInMeters : Float = 7.0 / 39.37
   
   var ident : String!
-  
+
+  convenience init(ident:String) {
+      self.init()
+      self.ident = ident
+  }
+
   static func ==(lhs: Face, rhs: Face) -> Bool {
     return lhs.ident == rhs.ident
   }

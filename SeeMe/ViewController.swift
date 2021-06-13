@@ -104,7 +104,9 @@ class ViewController: UIViewController {
     sceneView.delegate = self
     sceneView.session.delegate = self
 
-    
+    DispatchQueue.main.asyncAfter(deadline: .now()+5) {
+      FaceDetect.shared.captureMode = true
+    }
   }
   
   
@@ -206,36 +208,76 @@ extension ViewController : ARSessionDelegate {
           guard let cgImg = cgImages.first else {
             return
           }
-          
-        } else {
-            DispatchQueue.main.async {
-                
-              if FaceDetect.shared.isDetecting { return }
-              FaceDetect.shared.isDetecting = true
+          DispatchQueue.main.async {
               
-              let dg = DispatchGroup()
-              for (i,cg) in cgImages.enumerated() {
-                dg.enter()
-                self.identify(cgImage: cg.0) { features in
-                  defer { dg.leave() }
-                  guard let faceFeatures = features else { return }
-                  self.faceIdents.forEach { face in
-                    let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
-                    if isFace.0 {
-                      FaceManager.shared.faceSeen(face: face)
-                      face.bounds = cg.1
+            if FaceDetect.shared.isDetecting { return }
+            FaceDetect.shared.isDetecting = true
+            
+            let dg = DispatchGroup()
+            for (i,cg) in cgImages.enumerated() {
+              dg.enter()
+              self.identify(cgImage: cg.0) { features in
+                defer { dg.leave() }
+                guard let faceFeatures = features else { return }
+                if self.faceIdents.count == 0 {
+                  let f = Face(ident: "Ed")
+                  f.features = faceFeatures
+                  f.bounds = cgImg.1
+                  f.lastSeen = Date()
+//                  f.index = self.faceIdents.count
+                  
+                  print("Adding Ed")
+                  self.faceIdents.append(f)
+                }
+                
+                self.faceIdents.forEach { face in
+                  let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
+                  if isFace.0 {
+                    FaceManager.shared.faceSeen(face: face)
+                    face.bounds = cg.1
 
-                    } else {
-                      
-                    }
+                  } else {
+                    
                   }
                 }
               }
-              dg.notify(queue: .main) {
-                FaceDetect.shared.isDetecting = false
-              }
-
             }
+            dg.notify(queue: .main) {
+              FaceDetect.shared.isDetecting = false
+            }
+
+          }
+
+        } else {
+          DispatchQueue.main.async {
+            
+            if FaceDetect.shared.isDetecting { return }
+            FaceDetect.shared.isDetecting = true
+            
+            let dg = DispatchGroup()
+            for (i,cg) in cgImages.enumerated() {
+              dg.enter()
+              self.identify(cgImage: cg.0) { features in
+                defer { dg.leave() }
+                guard let faceFeatures = features else { return }
+                self.faceIdents.forEach { face in
+                  let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
+                  if isFace.0 {
+                    FaceManager.shared.faceSeen(face: face)
+                    face.bounds = cg.1
+                    
+                    print("See Person")
+                  } else {
+                    print("----")
+                  }
+                }
+              }
+            }
+            dg.notify(queue: .main) {
+              FaceDetect.shared.isDetecting = false
+            }
+            
+          }
           
         }
       }
