@@ -24,10 +24,11 @@ class SwiftUIState: ObservableObject {
 
 struct NavigationScreen: View {
     @StateObject var appState = SwiftUIState()
+    @State private var tap = false
     
     var body: some View {
         ZStack {
-            ViewControllerRepresentable()
+            ViewControllerRepresentable(tap: $tap)
                 .edgesIgnoringSafeArea(.all)
             HStack {
                 Spacer()
@@ -49,6 +50,9 @@ struct NavigationScreen: View {
             .background(Color(UIColor(red: 0, green: 0.75, blue: 0, alpha: 0.3)))
             .background(.clear)
         }
+        .onTapGesture {
+            tap = true
+        }
 
     }
 }
@@ -61,6 +65,7 @@ struct NavigationScreen_Previews: PreviewProvider {
 }
 
 struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    @Binding var tap: Bool
     
     class Coordinator: NSObject, ViewControllerDelegate {
         var parent: ViewControllerRepresentable
@@ -75,7 +80,10 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
-        
+        if tap {
+            uiViewController.screenTappedSwiftUI()
+            tap = false
+        }
     }
     
     func makeUIViewController(context: Context) -> ViewController {

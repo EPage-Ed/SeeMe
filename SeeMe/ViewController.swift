@@ -92,6 +92,10 @@ class ViewController: UIViewController {
   }
   
   @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
+    // FaceDetect.shared.captureMode = true
+  }
+    
+  func screenTappedSwiftUI() {
     FaceDetect.shared.captureMode = true
   }
   
