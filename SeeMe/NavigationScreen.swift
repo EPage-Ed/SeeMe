@@ -10,42 +10,67 @@ import Combine
 
 class SwiftUIState: ObservableObject {
     @Published var angle: Double = 0
+    
+    var timer: Timer? = nil
+    
+    init() {
+        self.timer = Timer(timeInterval: 3, repeats: true) { timer in
+            withAnimation {
+                self.angle += .pi/3
+            }
+        }
+    }
 }
 
 struct NavigationScreen: View {
     @StateObject var appState = SwiftUIState()
     
     var body: some View {
-        HStack {
-            Spacer()
-            VStack {
+        ZStack {
+            ViewControllerRepresentable()
+                .edgesIgnoringSafeArea(.all)
+            HStack {
                 Spacer()
-                ZStack {
-                    Circle()
-                        .foregroundColor(.clear)
-                    Image(systemName: "face.dashed")
-                        .font(.system(size: 200))
-                        .foregroundColor(.white)
-                        .rotationEffect(.radians(appState.angle))
-                        .onAppear {
-                            withAnimation {
-                                appState.angle = .pi*6
-                            }
+                VStack {
+                    Spacer()
+                    ZStack {
+                        Circle()
+                            .foregroundColor(.clear)
+                        Image(systemName: "face.dashed")
+                            .font(.system(size: 200))
+                            .foregroundColor(.white)
+                            .rotationEffect(.radians(appState.angle))
                     }
+                    Spacer()
                 }
                 Spacer()
             }
-            Spacer()
+            .edgesIgnoringSafeArea(.all)
+            .background(Color(UIColor(red: 0, green: 0.75, blue: 0, alpha: 0.3)))
+            .background(.clear)
         }
-        .edgesIgnoringSafeArea(.all)
-        .background(Color(UIColor(red: 0, green: 0.75, blue: 0, alpha: 0.5)))
-        .background(.ultraThinMaterial)
 
     }
 }
 
+
 struct NavigationScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationScreen()
+    }
+}
+
+struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+        
+    }
+    
+    func makeUIViewController(context: Context) -> ViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        if let vc = storyboard.instantiateInitialViewController() as? ViewController {
+            return vc
+        } else {
+            return ViewController()
+        }
     }
 }
