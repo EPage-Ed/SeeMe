@@ -40,6 +40,9 @@ class ViewController: UIViewController {
   private let locationManager = CLLocationManager()
   private var currentLocation: CLLocation?
     
+  // MARK: Add delegate
+  var delegate: ViewControllerDelegate? = nil
+    
   lazy var classificationRequest: VNCoreMLRequest = {
     do {
       let request = VNCoreMLRequest(model: faceIdModel, completionHandler: { [weak self] request, error in
@@ -92,6 +95,10 @@ class ViewController: UIViewController {
   }
   
   @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
+    // FaceDetect.shared.captureMode = true
+  }
+    
+  func screenTappedSwiftUI() {
     FaceDetect.shared.captureMode = true
   }
   
@@ -158,8 +165,10 @@ extension ViewController : ARSessionDelegate {
       distance += delta * delta
     }
     distance = distance.squareRoot()
+      
+    let isFace = distance < treshold
     
-    return (distance < treshold,distance)
+    return (isFace, distance)
   }
   
   func identify(cgImage: CGImage, withCompletion completion: @escaping (_ faceFeatures: MLMultiArray?) -> Void) {
@@ -239,11 +248,12 @@ extension ViewController : ARSessionDelegate {
                 self.faceIdents.forEach { face in
                   let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
                   if isFace.0 {
+                    self.delegate?.detectionState(didChange: .tracking, face: face)
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
 
                   } else {
-                    
+                    self.delegate?.detectionState(didChange: .searching, face: face)
                   }
                 }
               }
@@ -256,7 +266,6 @@ extension ViewController : ARSessionDelegate {
 
         } else {
           DispatchQueue.main.async {
-            
             if FaceDetect.shared.isDetecting { return }
             FaceDetect.shared.isDetecting = true
             
@@ -269,11 +278,13 @@ extension ViewController : ARSessionDelegate {
                 self.faceIdents.forEach { face in
                   let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
                   if isFace.0 {
+                    self.delegate?.detectionState(didChange: .tracking, face: face)
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
                     
 //                    print("See Person")
                   } else {
+                      self.delegate?.detectionState(didChange: .searching, face: face)
 //                    print("----")
                   }
                 }

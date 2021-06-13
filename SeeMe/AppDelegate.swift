@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     application.isIdleTimerDisabled = true
     
-//    let hostingController = UIHostingController(rootView: NavigationScreen())
-//    window?.rootViewController = hostingController
+    let hostingController = UIHostingController(rootView: NavigationScreen())
+    window?.rootViewController = hostingController
       
     return true
   }
