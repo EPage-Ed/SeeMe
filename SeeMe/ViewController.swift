@@ -248,11 +248,12 @@ extension ViewController : ARSessionDelegate {
                 self.faceIdents.forEach { face in
                   let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
                   if isFace.0 {
+                    self.delegate?.detectionState(didChange: .tracking)
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
 
                   } else {
-                    
+                    self.delegate?.detectionState(didChange: .searching)
                   }
                 }
               }
@@ -265,7 +266,7 @@ extension ViewController : ARSessionDelegate {
 
         } else {
           DispatchQueue.main.async {
-            
+            z
             if FaceDetect.shared.isDetecting { return }
             FaceDetect.shared.isDetecting = true
             
