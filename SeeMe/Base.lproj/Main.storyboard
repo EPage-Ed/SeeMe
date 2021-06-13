@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -10,17 +11,30 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="SeeMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="zSL-Oz-HdF">
+                    <view key="view" contentMode="scaleToFill" id="gwc-bW-fqv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </arscnView>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6u9-L3-I4Y">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </arscnView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fVf-dP-tHX"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6u9-L3-I4Y" firstAttribute="top" secondItem="gwc-bW-fqv" secondAttribute="top" id="1DE-Df-ATz"/>
+                            <constraint firstAttribute="trailing" secondItem="6u9-L3-I4Y" secondAttribute="trailing" id="PDH-2U-dKk"/>
+                            <constraint firstAttribute="bottom" secondItem="6u9-L3-I4Y" secondAttribute="bottom" id="S9f-5b-bPt"/>
+                            <constraint firstItem="6u9-L3-I4Y" firstAttribute="leading" secondItem="fVf-dP-tHX" secondAttribute="leading" id="xQo-2s-Qjc"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="sceneView" destination="zSL-Oz-HdF" id="YU8-JK-iZq"/>
+                        <outlet property="sceneView" destination="6u9-L3-I4Y" id="EfE-ZI-CQh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="134"/>
+            <point key="canvasLocation" x="137.68115942028987" y="133.92857142857142"/>
         </scene>
     </scenes>
 </document>
