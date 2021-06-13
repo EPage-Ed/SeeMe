@@ -10,6 +10,16 @@ import Combine
 
 class SwiftUIState: ObservableObject {
     @Published var angle: Double = 0
+    @Published var detectionState: DetectionState = .disabled
+    
+    enum DetectionState {
+        /// The user hasn't provided a face yet
+        case disabled
+        /// No face detected in the current frame
+        case searching
+        /// Recognzied face in frame
+        case tracking
+    }
     
     var timer: Timer? = nil
     
@@ -26,6 +36,17 @@ struct NavigationScreen: View {
     @StateObject var appState = SwiftUIState()
     @State private var tap = false
     
+    var symbolName: String {
+        switch appState.detectionState {
+        case .disabled:
+            return "person.fill.viewfinder"
+        case .searching:
+            return "waveform.and.magnifyingglass"
+        case .tracking:
+            return "face.dashed"
+        }
+    }
+    
     var body: some View {
         ZStack {
             ViewControllerRepresentable(tap: $tap)
@@ -37,7 +58,7 @@ struct NavigationScreen: View {
                     ZStack {
                         Circle()
                             .foregroundColor(.clear)
-                        Image(systemName: "face.dashed")
+                        Image(systemName: symbolName)
                             .font(.system(size: 200))
                             .foregroundColor(.white)
                             .rotationEffect(.radians(appState.angle))
