@@ -61,6 +61,19 @@ struct NavigationScreen_Previews: PreviewProvider {
 }
 
 struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    
+    class Coordinator: NSObject, ViewControllerDelegate {
+        var parent: ViewControllerRepresentable
+        
+        init(_ parent: ViewControllerRepresentable) {
+            self.parent = parent
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         
     }
@@ -72,5 +85,16 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
         } else {
             return ViewController()
         }
+    }
+}
+
+protocol ViewControllerDelegate {
+    /// Set angle in radians
+    func setAngle(_ angle: Double)
+}
+
+extension ViewControllerDelegate {
+    func setAngle(_ angle: Double) {
+        
     }
 }
