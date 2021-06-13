@@ -33,7 +33,6 @@ class ViewController: UIViewController {
   private var faceIdents = [Face]()
 
   // MARK: Audio Properties
-  private let audioManager = AudioManager()
   private let audioEngine = AVAudioEngine()
   private let audioEnvironment = AVAudioEnvironmentNode()
   private let audioPlayer = AVAudioPlayerNode()
@@ -91,22 +90,22 @@ class ViewController: UIViewController {
       }
     }
   }
-
+  
+  @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
+    FaceDetect.shared.captureMode = true
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Load the "Box" scene from the "Experience" Reality File
-    //    let boxAnchor = try! Experience.loadBox()
-    
-    // Add the box anchor to the scene
-    //    arView.scene.anchors.append(boxAnchor)
+    FaceManager.shared.start()
 
     sceneView.delegate = self
     sceneView.session.delegate = self
 
-    DispatchQueue.main.asyncAfter(deadline: .now()+5) {
-      FaceDetect.shared.captureMode = true
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now()+5) {
+//      FaceDetect.shared.captureMode = true
+//    }
   }
   
   
@@ -188,9 +187,12 @@ extension ViewController : ARSessionDelegate {
   }
   
   func session(_ session: ARSession, didUpdate frame: ARFrame) {
-    // TODO: Get transform for face
-    audioManager.update(cameraTransform: frame.camera.transform, faceTransform: nil)
     
+    let t = frame.camera.transform
+    FaceManager.shared.camTransform = t
+    
+    Audio.shared.camDir = frame.camera.eulerAngles.y  // roll, pitch, yaw
+
     let img = frame.capturedImage
     let tm = frame.timestamp
     
@@ -226,8 +228,12 @@ extension ViewController : ARSessionDelegate {
                   f.lastSeen = Date()
 //                  f.index = self.faceIdents.count
                   
-                  print("Adding Ed")
+                  print("Adding Face")
                   self.faceIdents.append(f)
+                  DispatchQueue.main.async {
+                    let systemSoundID: SystemSoundID = 1016
+                    AudioServicesPlaySystemSound(systemSoundID)
+                  }
                 }
                 
                 self.faceIdents.forEach { face in
@@ -266,9 +272,9 @@ extension ViewController : ARSessionDelegate {
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
                     
-                    print("See Person")
+//                    print("See Person")
                   } else {
-                    print("----")
+//                    print("----")
                   }
                 }
               }

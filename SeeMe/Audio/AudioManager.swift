@@ -24,6 +24,7 @@ class AudioManager {
         // Load person1 asset into PHASE
         let audioFileUrl = Bundle.main.url(forResource: "person1", withExtension: "wav")!
         let soundAsset = try! engine.assetRegistry.registerSoundAsset(url: audioFileUrl, identifier: Identifiers.person1, assetType: .resident, channelLayout: nil, normalizationMode: .dynamic)
+
         // Align channel layout with person1.wav
         let channelLayout = AVAudioChannelLayout(layoutTag: kAudioChannelLayoutTag_Mono)!
         // Create sampler node for reference later
@@ -70,11 +71,14 @@ class AudioManager {
         
         let source = PHASESource(engine: engine, shapes: [shape])
         var sourceTransform = matrix_identity_float4x4
+      /*
         sourceTransform.columns.0 = simd_make_float4(-1,0,0,0)
         sourceTransform.columns.1 = simd_make_float4(0,1,0,0)
         sourceTransform.columns.2 = simd_make_float4(0,0,-1,0)
         sourceTransform.columns.3 = simd_make_float4(0,0,2,1)
+       */
         source.transform = sourceTransform
+        source.gain = 0.0
         
         self.person1Source = source
         
@@ -94,7 +98,7 @@ class AudioManager {
         occluderTransform.columns.3 = simd_make_float4(0,0,1,1)
         occluder.transform = occluderTransform
         
-        try! engine.rootObject.addChild(occluder)
+//        try! engine.rootObject.addChild(occluder)
         
         // Create sound event
         let mixerParameters = PHASEMixerParameters()
@@ -117,11 +121,19 @@ class AudioManager {
     
     /// Turn the sound on or off
     func stop() {
-        engine.stop()
+      NSLog("--Stop")
+//      print("--Stop")
+      person1Source?.gain = 0
+//      engine.pause()
+//        engine.stop()
     }
     
     func start() {
-        try! engine.start()
+      NSLog("Play--")
+//      print("Play--")
+      person1Source?.gain = 1
+//      try! engine.start()
+//        try! engine.start()
     }
     
     

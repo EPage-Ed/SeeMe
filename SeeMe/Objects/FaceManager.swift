@@ -6,12 +6,13 @@
 //
 
 import Foundation
-
+import simd
 
 class FaceManager {
   static var shared = FaceManager()
   
   private var audioManager = AudioManager()
+  var camTransform : simd_float4x4 = matrix_identity_float4x4 // simd_float4x4()
   
   private var allFaces = Set([Face]())
   private var playFaces = Set([Face]())
@@ -24,6 +25,9 @@ class FaceManager {
   private var timerPlayAllTime = 10
   
   func start() {
+//    audioManager.update(cameraTransform: camTransform, faceTransform: Face.farTransform)
+//    audioManager.start()
+    
     timer = Timer.scheduledTimer(withTimeInterval: timerInterval, repeats: true) { timer in
       self.timerCount += Int(self.timerInterval)
       if self.timerCount % self.timerPlayAllTime == 0 {
@@ -35,7 +39,8 @@ class FaceManager {
       }
       self.play()
       
-      let audioTime = Int(self.allFaces.reduce(0, {$0 + $1.audioFile.duration}) * 3)
+      let audioTime = Int(self.allFaces.reduce(0, {(s,f) in s + 2}) * 3)
+//      let audioTime = Int(self.allFaces.reduce(0, {$0 + $1.audioFile.duration}) * 3)
       self.timerPlayAllTime = max(10, audioTime)
     }
   }
@@ -46,6 +51,7 @@ class FaceManager {
   
   func faceSeen(face:Face) {
     face.lastSeen = Date()
+//    print("Seen")
     
     let (success,f) = allFaces.insert(face)
     if success {
@@ -65,10 +71,18 @@ class FaceManager {
   
   func doPlay() {
     guard let face = playFaces.popFirst() else { playing = false; return }
+//    NSLog("Play \(String(describing:face.ident))")
+    face.play(audioManager: audioManager, camTrans: camTransform) {
+      self.playFaces.remove(face)
+      self.doPlay()
+    }
+    
+    /*
     face.play {
       self.playFaces.remove(face)
       self.doPlay()
     }
+     */
   }
 
 

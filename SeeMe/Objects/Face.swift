@@ -11,7 +11,26 @@ import CoreML
 class Face : Equatable, Hashable {
   static let playTime : TimeInterval = 20
   static let maxTime : TimeInterval = 120
-  static let faceWidthInMeters : Float = 7.0 / 39.37
+  static let headScaleFactor : Float = 0.2  // 0.3 for picture
+  static var faceWidthInMeters : Float { Float(7.0 / 39.37) * headScaleFactor }
+  
+  static var nearTransform : simd_float4x4 {
+    var fTransform = matrix_identity_float4x4
+    fTransform.columns.0 = simd_make_float4(1,0,0,0)
+    fTransform.columns.1 = simd_make_float4(0,1,0,0)
+    fTransform.columns.2 = simd_make_float4(0,0,1,0)
+    fTransform.columns.3 = simd_make_float4(0,0,2,1)
+    return fTransform
+  }
+  static var farTransform : simd_float4x4 {
+    var fTransform = matrix_identity_float4x4
+    fTransform.columns.0 = simd_make_float4(1,0,0,0)
+    fTransform.columns.1 = simd_make_float4(0,1,0,0)
+    fTransform.columns.2 = simd_make_float4(0,0,1,0)
+    fTransform.columns.3 = simd_make_float4(0,0,200,1)
+    return fTransform
+  }
+
   
   var ident : String!
 
@@ -65,7 +84,11 @@ class Face : Equatable, Hashable {
   var lastSeenHeading : Double = Double(Audio.shared.camDir)
   var lastPlayHeading : Double = 0
   
-  var playPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
+  var playPosition = AVAudio3DPoint(x: 0, y: 0, z: 0) {
+    didSet {
+      print("Play Pos: \(playPosition)")
+    }
+  }
   
   var position = AVAudio3DPoint(x: 0, y: 0, z: -1) {
     didSet {
@@ -75,9 +98,10 @@ class Face : Equatable, Hashable {
       let zd = position.z - playPosition.z
       //            let move = sqrt(xd*xd + yd*yd + zd*zd)
       let move = sqrt(xd*xd + zd*zd)
-      //            print(move)
-      if move > 0.5 {
-        print(ident!,"Moved ",move)
+
+      print(Int(move * 1000))
+      if move > 0.3 * Face.headScaleFactor { // 0.5
+//        print(ident!,"Moved ",move)
         FaceManager.shared.playFace(face: self)
       }
     }
@@ -100,7 +124,9 @@ class Face : Equatable, Hashable {
   
   var significantMove : Bool {
     let pp = player.position
-    return abs(pp.x - xPos) > 0.2
+    let m = abs(pp.x - xPos)
+//    print(m)
+    return m > 0.2 * Face.headScaleFactor // 0.2
   }
   var sound : String? {
     didSet {
@@ -108,6 +134,31 @@ class Face : Equatable, Hashable {
   }
   
   
+  func play(audioManager:AudioManager, camTrans: simd_float4x4, completion: @escaping ()->()) {
+    // TODO: Get transform for face
+//    print(camTrans)
+    if !doPlay { completion(); return }
+    lastPlayed = Date()
+    playPosition = position
+    audioManager.update(cameraTransform: camTrans, faceTransform: nil)
+    audioManager.start()
+    DispatchQueue.main.asyncAfter(deadline: .now()+1.8) {
+      audioManager.stop()
+    }
+    completion()
+  }
+  
+  var doPlay : Bool {
+    let playInterval = lastPlayed == nil ? 0 : Date().timeIntervalSince(lastPlayed!)
+    let seenInterval = lastSeen == nil ? 0 : Date().timeIntervalSince(lastSeen!)
+    let doPlay = playInterval == 0 || (playInterval > Face.playTime && seenInterval < Face.maxTime) || significantMove
+    NSLog("\(doPlay) , \(playInterval) , \(seenInterval) , \(significantMove)")
+
+    return doPlay
+  }
+
+  
+  /*
   func play(completion:@escaping ()->()) {
     if doPlay {
       
@@ -125,7 +176,7 @@ class Face : Equatable, Hashable {
   }
   
   func schedule(audioFile:AVAudioFile,completion:@escaping AVAudioPlayerNodeCompletionHandler) {
-    
+        
     let doPlay = true
     player.volume = doPlay ? 1.0 : 0 // volume : 0
     
@@ -134,5 +185,5 @@ class Face : Equatable, Hashable {
     player.scheduleFile(audioFile, at: nil, completionCallbackType: .dataPlayedBack, completionHandler: completion)
     lastPlayed = doPlay ? Date() : lastPlayed
   }
-
+   */
 }

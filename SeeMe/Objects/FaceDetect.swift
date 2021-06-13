@@ -15,7 +15,6 @@ class FaceDetect {
   
   var isDetecting = false
   var faces = [Face]()
-  var sceneView: ARSCNView!
 
   var captureMode = false
   private let ciContext = CIContext()

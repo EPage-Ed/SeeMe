@@ -21,18 +21,27 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fVf-dP-tHX"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="6u9-L3-I4Y" firstAttribute="top" secondItem="gwc-bW-fqv" secondAttribute="top" id="1DE-Df-ATz"/>
                             <constraint firstAttribute="trailing" secondItem="6u9-L3-I4Y" secondAttribute="trailing" id="PDH-2U-dKk"/>
                             <constraint firstAttribute="bottom" secondItem="6u9-L3-I4Y" secondAttribute="bottom" id="S9f-5b-bPt"/>
                             <constraint firstItem="6u9-L3-I4Y" firstAttribute="leading" secondItem="fVf-dP-tHX" secondAttribute="leading" id="xQo-2s-Qjc"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="o8Z-SX-gQR" appends="YES" id="s1B-fZ-P4s"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="6u9-L3-I4Y" id="EfE-ZI-CQh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="o8Z-SX-gQR">
+                    <connections>
+                        <action selector="screenTapped:" destination="BYZ-38-t0r" id="RHa-g2-ZVD"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="133.92857142857142"/>
         </scene>
