@@ -162,8 +162,10 @@ extension ViewController : ARSessionDelegate {
       distance += delta * delta
     }
     distance = distance.squareRoot()
+      
+    let isFace = distance < treshold
     
-    return (distance < treshold,distance)
+    return (isFace, distance)
   }
   
   func identify(cgImage: CGImage, withCompletion completion: @escaping (_ faceFeatures: MLMultiArray?) -> Void) {
