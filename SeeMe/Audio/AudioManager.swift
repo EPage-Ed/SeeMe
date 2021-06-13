@@ -8,7 +8,7 @@
 import PHASE
 import Foundation
 
-class SoundManager {
+class AudioManager {
     private let engine = PHASEEngine(updateMode: .automatic)
     private var soundEvent: PHASESoundEvent? = nil
     private var listener: PHASEListener? = nil
