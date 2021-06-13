@@ -248,12 +248,12 @@ extension ViewController : ARSessionDelegate {
                 self.faceIdents.forEach { face in
                   let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
                   if isFace.0 {
-                    self.delegate?.detectionState(didChange: .tracking)
+                    self.delegate?.detectionState(didChange: .tracking, face: face)
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
 
                   } else {
-                    self.delegate?.detectionState(didChange: .searching)
+                    self.delegate?.detectionState(didChange: .searching, face: face)
                   }
                 }
               }
@@ -278,13 +278,13 @@ extension ViewController : ARSessionDelegate {
                 self.faceIdents.forEach { face in
                   let isFace = self.isFace(face, hasCloseFeaturesWith: faceFeatures)
                   if isFace.0 {
-                    self.delegate?.detectionState(didChange: .tracking)
+                    self.delegate?.detectionState(didChange: .tracking, face: face)
                     FaceManager.shared.faceSeen(face: face)
                     face.bounds = cg.1
                     
 //                    print("See Person")
                   } else {
-                      self.delegate?.detectionState(didChange: .searching)
+                      self.delegate?.detectionState(didChange: .searching, face: face)
 //                    print("----")
                   }
                 }

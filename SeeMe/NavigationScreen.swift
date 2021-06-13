@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class SwiftUIState: ObservableObject {
-    @Published var angle: Double = 0
+    @Published var face: Face? = nil
     @Published var detectionState: DetectionState = .disabled
     
     enum DetectionState {
@@ -26,7 +26,6 @@ class SwiftUIState: ObservableObject {
     init() {
         self.timer = Timer(timeInterval: 3, repeats: true) { timer in
             withAnimation {
-                self.angle += .pi/3
             }
         }
     }
@@ -83,7 +82,7 @@ struct NavigationScreen: View {
                         Image(systemName: symbolName)
                             .font(.system(size: 200))
                             .foregroundColor(.white)
-                            .rotationEffect(.radians(appState.angle))
+                            .rotationEffect(.radians(appState.face?.angle ?? 0))
                         VStack {
                             Spacer()
                             Text(message)
@@ -128,18 +127,11 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
             self.parent = parent
         }
         
-        func setAngle(_ angle: Double) {
-            DispatchQueue.main.async {
-                withAnimation {
-                    self.parent.appState.angle = angle
-                }
-            }
-        }
-        
-        func detectionState(didChange detectionState: SwiftUIState.DetectionState) {
+        func detectionState(didChange detectionState: SwiftUIState.DetectionState, face: Face) {
             DispatchQueue.main.async {
                 withAnimation {
                     self.parent.appState.detectionState = detectionState
+                    self.parent.appState.face = face
                 }
             }
         }
@@ -171,7 +163,7 @@ protocol ViewControllerDelegate {
     /// Set angle in radians
     func setAngle(_ angle: Double)
     /// Update tracking state
-    func detectionState(didChange: SwiftUIState.DetectionState)
+    func detectionState(didChange: SwiftUIState.DetectionState, face: Face)
 }
 
 extension ViewControllerDelegate {
@@ -179,7 +171,7 @@ extension ViewControllerDelegate {
         
     }
     
-    func detectionState(didChange detectionState: SwiftUIState.DetectionState) {
+    func detectionState(didChange detectionState: SwiftUIState.DetectionState, face: Face) {
         
     }
 }
