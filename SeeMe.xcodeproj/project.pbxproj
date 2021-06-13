@@ -10,6 +10,9 @@
 		D8C49FC226756533004D38CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC126756533004D38CB /* Extensions.swift */; };
 		D8C49FC526756A29004D38CB /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC426756A29004D38CB /* Face.swift */; };
 		D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */; };
+		D8C49FCA267587E9004D38CB /* FaceDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FC9267587E9004D38CB /* FaceDetect.swift */; };
+		D8C49FCE26758A90004D38CB /* person2.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8C49FCC26758A90004D38CB /* person2.wav */; };
+		D8C49FCF26758A90004D38CB /* person1.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8C49FCD26758A90004D38CB /* person1.wav */; };
 		D8E9DE5A26755E2100B1DDBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */; };
 		D8E9DE5C26755E2100B1DDBA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5B26755E2100B1DDBA /* ViewController.swift */; };
 		D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5D26755E2100B1DDBA /* Experience.rcproject */; };
@@ -22,6 +25,9 @@
 		D8C49FC126756533004D38CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D8C49FC426756A29004D38CB /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
 		D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FaceId-resnet50-quantized.mlmodel"; sourceTree = "<group>"; };
+		D8C49FC9267587E9004D38CB /* FaceDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetect.swift; sourceTree = "<group>"; };
+		D8C49FCC26758A90004D38CB /* person2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = person2.wav; sourceTree = "<group>"; };
+		D8C49FCD26758A90004D38CB /* person1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = person1.wav; sourceTree = "<group>"; };
 		D8E9DE5626755E2100B1DDBA /* SeeMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeeMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8E9DE5B26755E2100B1DDBA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				D8C49FC426756A29004D38CB /* Face.swift */,
+				D8C49FC9267587E9004D38CB /* FaceDetect.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -56,6 +63,15 @@
 				D8C49FC726756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D8C49FCB26758A90004D38CB /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				D8C49FCD26758A90004D38CB /* person1.wav */,
+				D8C49FCC26758A90004D38CB /* person2.wav */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		D8E9DE4D26755E2100B1DDBA = {
@@ -82,6 +98,7 @@
 				D8C49FC126756533004D38CB /* Extensions.swift */,
 				D8C49FC326756A15004D38CB /* Objects */,
 				D8C49FC626756AD5004D38CB /* Models */,
+				D8C49FCB26758A90004D38CB /* Audio */,
 				D8E9DE5D26755E2100B1DDBA /* Experience.rcproject */,
 				D8E9DE5F26755E2100B1DDBA /* Main.storyboard */,
 				D8E9DE6226755E2300B1DDBA /* Assets.xcassets */,
@@ -148,9 +165,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C49FCE26758A90004D38CB /* person2.wav in Resources */,
 				D8E9DE6626755E2300B1DDBA /* LaunchScreen.storyboard in Resources */,
 				D8E9DE6326755E2300B1DDBA /* Assets.xcassets in Resources */,
 				D8E9DE6126755E2100B1DDBA /* Main.storyboard in Resources */,
+				D8C49FCF26758A90004D38CB /* person1.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +182,7 @@
 			files = (
 				D8E9DE5C26755E2100B1DDBA /* ViewController.swift in Sources */,
 				D8E9DE5A26755E2100B1DDBA /* AppDelegate.swift in Sources */,
+				D8C49FCA267587E9004D38CB /* FaceDetect.swift in Sources */,
 				D8C49FC526756A29004D38CB /* Face.swift in Sources */,
 				D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */,
 				D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */,
