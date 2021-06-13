@@ -109,11 +109,19 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
         }
         
         func setAngle(_ angle: Double) {
-            parent.appState.angle = angle
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.parent.appState.angle = angle
+                }
+            }
         }
         
         func detectionState(didChange detectionState: SwiftUIState.DetectionState) {
-            parent.appState.detectionState = detectionState
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.parent.appState.detectionState = detectionState
+                }
+            }
         }
     }
     
