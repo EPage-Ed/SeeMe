@@ -40,6 +40,9 @@ class ViewController: UIViewController {
   private let locationManager = CLLocationManager()
   private var currentLocation: CLLocation?
     
+  // MARK: Add delegate
+  private var delegate: ViewControllerDelegate? = nil
+    
   lazy var classificationRequest: VNCoreMLRequest = {
     do {
       let request = VNCoreMLRequest(model: faceIdModel, completionHandler: { [weak self] request, error in
