@@ -32,15 +32,15 @@ class ViewController: UIViewController {
   private let faceIdModel = try! VNCoreMLModel(for: FaceId_resnet50_quantized().model)
   private var faceIdents = [Face]()
 
-  
+  // MARK: Audio Properties
+  private let audioManager = AudioManager()
   private let audioEngine = AVAudioEngine()
   private let audioEnvironment = AVAudioEnvironmentNode()
   private let audioPlayer = AVAudioPlayerNode()
   
   private let locationManager = CLLocationManager()
   private var currentLocation: CLLocation?
-  
-  
+    
   lazy var classificationRequest: VNCoreMLRequest = {
     do {
       let request = VNCoreMLRequest(model: faceIdModel, completionHandler: { [weak self] request, error in
@@ -186,6 +186,9 @@ extension ViewController : ARSessionDelegate {
   }
   
   func session(_ session: ARSession, didUpdate frame: ARFrame) {
+    // TODO: Get transform for face
+    audioManager.update(cameraTransform: frame.camera.transform, faceTransform: nil)
+    
     let img = frame.capturedImage
     let tm = frame.timestamp
     

@@ -34,7 +34,7 @@ class AudioManager {
         spatialPipeline()
     }
     
-    func spatialPipeline() {
+    private func spatialPipeline() {
         // Create a Spatial Pipeline.
         let spatialPipelineOptions: PHASESpatialPipeline.Options = [.directPathTransmission, .lateReverb]
         let spatialPipeline = PHASESpatialPipeline(options: spatialPipelineOptions)!
@@ -46,8 +46,8 @@ class AudioManager {
         
         // Set the Spatial Mixer's Distance Model
         let distanceModelParameters = PHASEGeometricSpreadingDistanceModelParameters()
-        distanceModelParameters.fadeOutParameters = PHASEDistanceModelFadeOutParameters(cullDistance: 10.0)
-        distanceModelParameters.rolloffFactor = 0.25
+        distanceModelParameters.fadeOutParameters = PHASEDistanceModelFadeOutParameters(cullDistance: 12)
+        distanceModelParameters.rolloffFactor = 1
         spatialMixerDefinition.distanceModelParameters = distanceModelParameters
         
         let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: Identifiers.person1, mixerDefinition: spatialMixerDefinition)
@@ -104,9 +104,14 @@ class AudioManager {
         try! soundEvent!.start()
     }
     
-    func update(cameraTransform: simd_float4x4, faceTransform: simd_float4x4) {
+    func update(cameraTransform: simd_float4x4?, faceTransform: simd_float4x4?) {
         guard let listener = self.listener, let source = self.person1Source else { return }
-        listener.transform = cameraTransform
-        source.transform = faceTransform
+        
+        if let cameraTransform = cameraTransform {
+            listener.transform = cameraTransform
+        }
+        if let faceTransform = faceTransform {
+            source.transform = faceTransform
+        }
     }
 }
