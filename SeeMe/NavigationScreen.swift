@@ -82,6 +82,7 @@ struct NavigationScreen: View {
             .background(backgroundColor)
             .background(.clear)
         }
+        .environmentObject(appState)
         .onTapGesture {
             tap = true
         }
@@ -98,12 +99,21 @@ struct NavigationScreen_Previews: PreviewProvider {
 
 struct ViewControllerRepresentable: UIViewControllerRepresentable {
     @Binding var tap: Bool
+    @EnvironmentObject var appState: SwiftUIState
     
     class Coordinator: NSObject, ViewControllerDelegate {
         var parent: ViewControllerRepresentable
         
         init(_ parent: ViewControllerRepresentable) {
             self.parent = parent
+        }
+        
+        func setAngle(_ angle: Double) {
+            parent.appState.angle = angle
+        }
+        
+        func detectionState(didChange detectionState: SwiftUIState.DetectionState) {
+            parent.appState.detectionState = detectionState
         }
     }
     
@@ -140,7 +150,7 @@ extension ViewControllerDelegate {
         
     }
     
-    func detectionState(didChange: SwiftUIState.DetectionState) {
+    func detectionState(didChange detectionState: SwiftUIState.DetectionState) {
         
     }
 }
