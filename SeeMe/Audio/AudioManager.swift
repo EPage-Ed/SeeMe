@@ -14,7 +14,7 @@ class AudioManager {
     private var listener: PHASEListener? = nil
     
     private var person1Source: PHASESource? = nil
-    
+        
     struct Identifiers {
         static let person1 = "person1"
         static let person1Event = "person1event"
@@ -39,7 +39,7 @@ class AudioManager {
         let spatialPipelineOptions: PHASESpatialPipeline.Options = [.directPathTransmission, .lateReverb]
         let spatialPipeline = PHASESpatialPipeline(options: spatialPipelineOptions)!
         spatialPipeline.entries[PHASESpatialCategory.lateReverb]!.sendLevel = 0.1
-        engine.defaultReverbPreset = .mediumRoom
+        engine.defaultReverbPreset = .cathedral
         
         // Create a Spatial Mixer with the Spatial Pipeline.
         let spatialMixerDefinition = PHASESpatialMixerDefinition(spatialPipeline: spatialPipeline)
@@ -52,7 +52,7 @@ class AudioManager {
         
         let samplerNodeDefinition = PHASESamplerNodeDefinition(soundAssetIdentifier: Identifiers.person1, mixerDefinition: spatialMixerDefinition)
         samplerNodeDefinition.playbackMode = .looping
-        samplerNodeDefinition.setCalibrationMode(.relativeSpl, level: 12)
+        samplerNodeDefinition.setCalibrationMode(.relativeSpl, level: 0)
         samplerNodeDefinition.cullOption = .sleepWakeAtRealtimeOffset
         
         let soundEventAsset = try! engine.assetRegistry.registerSoundEventAsset(rootNode: samplerNodeDefinition, identifier: Identifiers.person1Event)
@@ -73,7 +73,7 @@ class AudioManager {
         sourceTransform.columns.0 = simd_make_float4(-1,0,0,0)
         sourceTransform.columns.1 = simd_make_float4(0,1,0,0)
         sourceTransform.columns.2 = simd_make_float4(0,0,-1,0)
-        sourceTransform.columns.3 = simd_make_float4(0,0,4,1)
+        sourceTransform.columns.3 = simd_make_float4(0,0,2,1)
         source.transform = sourceTransform
         
         self.person1Source = source
@@ -106,7 +106,7 @@ class AudioManager {
     
     func update(cameraTransform: simd_float4x4?, faceTransform: simd_float4x4?) {
         guard let listener = self.listener, let source = self.person1Source else { return }
-        
+
         if let cameraTransform = cameraTransform {
             listener.transform = cameraTransform
         }
@@ -114,4 +114,15 @@ class AudioManager {
             source.transform = faceTransform
         }
     }
+    
+    /// Turn the sound on or off
+    func stop() {
+        engine.stop()
+    }
+    
+    func start() {
+        try! engine.start()
+    }
+    
+    
 }
