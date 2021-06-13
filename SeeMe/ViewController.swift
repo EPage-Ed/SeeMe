@@ -41,7 +41,7 @@ class ViewController: UIViewController {
   private var currentLocation: CLLocation?
     
   // MARK: Add delegate
-  private var delegate: ViewControllerDelegate? = nil
+  var delegate: ViewControllerDelegate? = nil
     
   lazy var classificationRequest: VNCoreMLRequest = {
     do {
@@ -266,7 +266,6 @@ extension ViewController : ARSessionDelegate {
 
         } else {
           DispatchQueue.main.async {
-            z
             if FaceDetect.shared.isDetecting { return }
             FaceDetect.shared.isDetecting = true
             

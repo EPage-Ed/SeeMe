@@ -131,6 +131,7 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> ViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         if let vc = storyboard.instantiateInitialViewController() as? ViewController {
+            vc.delegate = context.coordinator
             return vc
         } else {
             return ViewController()
