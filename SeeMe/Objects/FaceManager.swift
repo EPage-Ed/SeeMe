@@ -11,6 +11,8 @@ import Foundation
 class FaceManager {
   static var shared = FaceManager()
   
+  private var audioManager = AudioManager()
+  
   private var allFaces = Set([Face]())
   private var playFaces = Set([Face]())
   private var faceArray = [Face]()
