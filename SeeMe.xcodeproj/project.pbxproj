@@ -15,6 +15,7 @@
 		D8C49FCF26758A90004D38CB /* person1.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8C49FCD26758A90004D38CB /* person1.wav */; };
 		D8C49FD12675A8C5004D38CB /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FD02675A8C5004D38CB /* Audio.swift */; };
 		D8C49FD32675A9F8004D38CB /* FaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FD22675A9F8004D38CB /* FaceManager.swift */; };
+		D8C49FD52675B02D004D38CB /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C49FD42675B02D004D38CB /* AudioManager.swift */; };
 		D8E9DE5A26755E2100B1DDBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */; };
 		D8E9DE5C26755E2100B1DDBA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5B26755E2100B1DDBA /* ViewController.swift */; };
 		D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = D8E9DE5D26755E2100B1DDBA /* Experience.rcproject */; };
@@ -32,6 +33,7 @@
 		D8C49FCD26758A90004D38CB /* person1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = person1.wav; sourceTree = "<group>"; };
 		D8C49FD02675A8C5004D38CB /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		D8C49FD22675A9F8004D38CB /* FaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceManager.swift; sourceTree = "<group>"; };
+		D8C49FD42675B02D004D38CB /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		D8E9DE5626755E2100B1DDBA /* SeeMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeeMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E9DE5926755E2100B1DDBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8E9DE5B26755E2100B1DDBA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		D8C49FCB26758A90004D38CB /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				D8C49FD42675B02D004D38CB /* AudioManager.swift */,
 				D8C49FCD26758A90004D38CB /* person1.wav */,
 				D8C49FCC26758A90004D38CB /* person2.wav */,
 			);
@@ -194,6 +197,7 @@
 				D8E9DE5E26755E2100B1DDBA /* Experience.rcproject in Sources */,
 				D8C49FC826756AD5004D38CB /* FaceId-resnet50-quantized.mlmodel in Sources */,
 				D8C49FC226756533004D38CB /* Extensions.swift in Sources */,
+				D8C49FD52675B02D004D38CB /* AudioManager.swift in Sources */,
 				D8C49FD32675A9F8004D38CB /* FaceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
